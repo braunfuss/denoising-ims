@@ -1,12 +1,12 @@
 from setuptools import setup
 
-AUTHORS = ('Original by Janis Heuel, modified by Andreas Steinberg'),
+AUTHORS = ('Andreas Steinberg, based on work by Janis Heuel'),
 
 setup(
     name='seismic denoiser',
     version='0.0.1',
     author=AUTHORS,
-    author_email='janis.heuel@ruhr-uni-bochum.de; andreas.steinberg@bgr.de',
+    author_email='andreas.steinberg@bgr.de',
     description=('Denoising Autoencoder to remove noise from data'),
     license=' GNU General Public License (version 3 or higher)',
     url='',
