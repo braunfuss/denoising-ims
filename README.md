@@ -28,11 +28,11 @@ The example script "example_denoise.py" denoises all waveforms in an folder "inp
 If you want to use other trained models you have to change the model filename (*h5) and the config filename (*config).
 
 Models delivered here are:
-
+```
 IMS_P = General IMS data trained P-phase denoiser model; trained with 60s duration time windows at 20 Hz
 IMS_LP = General IMS data trained long period model for surface and S-waves; trained with 360s duration time windows at 20Hz
 hydro_IMS = Hydroacustic P-phase denoiser, trained with 60s windows at 100 Hz
-
+```
 
 Furthermore station specific trained models, each trained with 60s windows at 20 Hz sampling rate are available:
 ```
