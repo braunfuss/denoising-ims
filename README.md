@@ -2,7 +2,9 @@
 
 This packages contains python scripts to train a neural network for the denoising of waveform data, as used in the publication "Deep neural network based denoising of regional seismic waveforms and impact on analysis of North Korean nuclear tests".
 This package is based on the work by  
+```
  * Heuel, J. & Friederich, W. Suppression of wind turbine noise from seismological data using nonlinear thresholding and denoising autoencoder Journal of Seismology, 2022 (https://github.com/JanisHe/seismic_denoiser)
+```
  and also on:
  * Zhu, W.; Mousavi, S. M. & Beroza, G. C. Seismic signal denoising and decomposition using deep neural networks IEEE Transactions on Geoscience and Remote Sensing, IEEE, 2019, 57, 9476-9488
  * Tibi, R.; Hammond, P.; Brogan, R.; Young, C. J. & Koper, K. Deep Learning Denoising Applied to Regional Distance Seismic Data in Utah Bulletin of the Seismological Society of America, 2021
