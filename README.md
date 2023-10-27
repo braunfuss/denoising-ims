@@ -1,6 +1,6 @@
 # Denoising Autoencoder for waveform data
 
-This packages contains python scripts to train a neural network for the denoising of waveform data, as used in the publication "Denoising DPRK".
+This packages contains python scripts to train a neural network for the denoising of waveform data, as used in the publication "Deep neural network based denoising of regional seismic waveforms and impact on analysis of North Korean nuclear tests".
 This package is based on the work by  
  * Heuel, J. & Friederich, W. Suppression of wind turbine noise from seismological data using nonlinear thresholding and denoising autoencoder Journal of Seismology, 2022 (https://github.com/JanisHe/seismic_denoiser)
  and also on:
@@ -24,8 +24,8 @@ This package is based on the work by
 #### Training of own model
 
 Create your own training dataset, that contains earthquake data with an high SNR and noise data. Both datasets
-are in two different directories, have the same length and sampling frequency. For the length and sampling frequency
-60 s windows and 100 Hz are recommended.
+are in two different directories, have the same length and sampling frequency. For the length and sampling frequency of a P-wave denoiser
+60 s windows and 20 or 100 Hz are recommended.
 For earthquake data, the STanford EArthquake Dataset (STEAD) is recommended starting point (https://github.com/smousavi05/STEAD).
 Note, each waveform is saved as a `.npz` file. If available, the earthquake data contain onsets of P- and S-arrivals
 in samples (`itp` and `its`). This only used for validation and in case of waveform records longer then configured sample length to cut the waveform accordingly. Save your data e.g. by the folllowing commands for earthquakes and noise, repectively:
