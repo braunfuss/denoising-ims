@@ -35,6 +35,7 @@ hydro_IMS = Hydroacustic P-phase denoiser, trained with 60s windows at 100 Hz
 
 
 Furthermore station specific trained models, each trained with 60s windows at 20 Hz sampling rate are available:
+```
 IMS_model_bjt = BJT station specific P-phase denoiser
 IMS_model_jnu = JNU station specific P-phase denoiser
 IMS_model_jow = JOW station specific P-phase denoiser
@@ -42,7 +43,7 @@ IMS_model_KLR = KLR station specific P-phase denoiser
 IMS_model_mja = MJA station specific P-phase denoiser
 IMS_model_usa = USA0B station specific P-phase denoiser
 IMS_model_ks31 = KS31 station specific P-phase denoiser
-
+```
 
 
 If your waveform record is longer than your waveform record from the training dataset, the longer time series is split into
