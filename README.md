@@ -21,12 +21,59 @@ This package is based on the work by
  * Pandas
  * tqdm
 
+
+#### Denoise seismograms
+
+The example script "example_denoise.py" denoises all waveforms in an folder "input" using a IMS network trained P-phase denoiser from REB catalog data for events around North Korea. 
+If you want to use other trained models you have to change the model filename (*h5) and the config filename (*config).
+
+Models delivered here are:
+
+IMS_P = General IMS data trained P-phase denoiser model; trained with 60s duration time windows at 20 Hz
+IMS_LP = General IMS data trained long period model for surface and S-waves; trained with 360s duration time windows at 20Hz
+hydro_IMS = Hydroacustic P-phase denoiser, trained with 60s windows at 100 Hz
+
+
+Furthermore station specific trained models, each trained with 60s windows at 20 Hz sampling rate are available:
+IMS_model_bjt = BJT station specific P-phase denoiser
+IMS_model_jnu = JNU station specific P-phase denoiser
+IMS_model_jow = JOW station specific P-phase denoiser
+IMS_model_KLR = KLR station specific P-phase denoiser
+IMS_model_mja = MJA station specific P-phase denoiser
+IMS_model_usa = USA0B station specific P-phase denoiser
+IMS_model_ks31 = KS31 station specific P-phase denoiser
+
+
+
+If your waveform record is longer than your waveform record from the training dataset, the longer time series is split into
+overlapping segments, e.g. 60 s segments. Each of these segments is denoised and the overlapping segments are
+merged to get one denoises time series.
+
+
+The script `./denoiser/denoiser_utils.py` contains the function `denoising_stream` that removes the noise
+from all traces in a obspy stream object. For more details please read the function description.
+You can use the pretrained model and config-file to suppress noise from your data. Try to run the following code:
+```
+from obspy import read, UTCDateTime
+from denoiser.denoise_utils import denoising_stream
+
+st = read(your data)  # Read your waveform data here
+st_de = st.copy()  # Create a copy of your obspy stream
+st_de = denoising_stream(stream=st, model_filename="Models/IMS_P.h5",
+                         config_filename="config/IMS_P.config")
+```
+st_de will then be a list of signal and noise, in this order, for each trace in the stream. Therefore e.g. std_de[0][0] is the predicted signal of the first data in stream.
+Compare your original stream and the denoised stream whether some noise is removed from the data.
+
+"denoise_hydro.py" is set to denoise IMS hydroacustic data. 
+
+
 #### Training of own model
 
 Create your own training dataset, that contains earthquake data with an high SNR and noise data. Both datasets
 are in two different directories, have the same length and sampling frequency. For the length and sampling frequency of a P-wave denoiser
 60 s windows and 20 or 100 Hz are recommended.
-For earthquake data, the STanford EArthquake Dataset (STEAD) is recommended starting point (https://github.com/smousavi05/STEAD).
+For earthquake data, the STanford EArthquake Dataset (STEAD) is a recommended starting point (https://github.com/smousavi05/STEAD), however in this publication the IMS network and REB catalog was used.
 Note, each waveform is saved as a `.npz` file. If available, the earthquake data contain onsets of P- and S-arrivals
 in samples (`itp` and `its`). This only used for validation and in case of waveform records longer then configured sample length to cut the waveform accordingly. Save your data e.g. by the folllowing commands for earthquakes and noise, repectively:
 ```
@@ -53,29 +100,4 @@ but in many cases it is necessary to denoise longer time series (see next sectio
 
 
 
-#### Denoise seismograms
-If your waveform record is longer than your waveform record from the training dataset, the longer time series is split into
-overlapping segments, e.g. 60 s segments. Each of these segments is denoised and the overlapping segments are
-merged to get one denoises time series.
-The script `./denoiser/denoiser_utils.py` contains the function `denoising_stream` that removes the noise
-from all traces in a obspy stream object. For more details please read the function description.
-You can use the pretrained model and config-file to suppress noise from your data. Try to run the following code:
-```
-from obspy import read, UTCDateTime
-from denoiser.denoise_utils import denoising_stream
 
-st = read(your data)  # Read your waveform data here
-st_de = st.copy()  # Create a copy of your obspy stream
-st_de = denoising_stream(stream=st, model_filename="Models/gr_mixed_stft.h5",
-                         config_filename="config/gr_mixed_stft.config")
-```
-st_de will then be a list of signal and noise, in this order, for each trace in the stream. Therefore e.g. std_de[0][0] is the predicted signal of the first data in stream.
-Compare your original stream and the denoised stream whether some noise is removed from the data.
-The pretrained model is trained with noise samples from several stations of the seismic network GR and
-with high signal-to-ratio events from the Stanford Earthquake Dataset
-(STEAD, https://github.com/smousavi05/STEAD).
-
-#### Automatic denoiser
-In many cases one needs real time denoising to analyse the denoised traces e.g. with Seiscomp.
-The function `auto_denoiser` in `./denoiser.denoiser_utils.py` reads a list with all required parameters
-from a csv file (`./denoiser/autp_denoiser.csv`).
